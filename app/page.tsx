@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const services = [
   { number: "01", title: "Maniküre & Naturnagelverstärkung", text: "Schöne, gepflegte Hände sind deine Visitenkarte. Mit einer professionellen Maniküre und einer Naturnagelverstärkung sorge ich für gesunde, stabile und natürlich schöne Nägel." },
@@ -18,6 +18,24 @@ const values = [
 
 export default function Home() {
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,7 +78,7 @@ export default function Home() {
         <div className="hero-note"><span>Scroll</span><i /></div>
       </section>
 
-      <section className="intro section-pad">
+      <section className="intro section-pad reveal" data-reveal>
         <div>
           <p className="eyebrow">Willkommen bei Snowthy Beauty</p>
           <h2>Kleine Details.<br /><em>Große Wirkung.</em></h2>
@@ -73,14 +91,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="services section-pad" id="leistungen">
+      <section className="services section-pad reveal" id="leistungen" data-reveal>
         <div className="section-heading">
           <p className="eyebrow light">Meine Leistungen</p>
           <h2>Schönheit, die sich<br /><em>nach dir anfühlt.</em></h2>
         </div>
         <div className="service-list">
           {services.map((service) => (
-            <article className="service" key={service.number}>
+            <article className="service" key={service.number} style={{ "--item-index": Number(service.number) - 1 } as React.CSSProperties}>
               <span>{service.number}</span>
               <h3>{service.title}</h3>
               <p>{service.text}</p>
@@ -90,7 +108,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="gallery" id="galerie">
+      <section className="gallery reveal" id="galerie" data-reveal>
         <div className="gallery-heading">
           <div>
             <p className="eyebrow">Ausgewählte Arbeiten</p>
@@ -106,7 +124,7 @@ export default function Home() {
         </figure>
       </section>
 
-      <section className="studio section-pad" id="studio">
+      <section className="studio section-pad reveal" id="studio" data-reveal>
         <div className="studio-art" aria-hidden="true">
           <div className="studio-frame"><span>SB</span></div>
           <p>Ruhe · Qualität · Du</p>
@@ -121,7 +139,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="prices section-pad" id="preise">
+      <section className="prices section-pad reveal" id="preise" data-reveal>
         <div>
           <p className="eyebrow">Preise & Behandlungen</p>
           <h2>Transparent.<br /><em>Persönlich. Schön.</em></h2>
@@ -132,7 +150,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="booking section-pad" id="termin">
+      <section className="booking section-pad reveal" id="termin" data-reveal>
         <div className="booking-copy">
           <p className="eyebrow light">Termin buchen</p>
           <h2>Zeit für dich<br /><em>beginnt hier.</em></h2>
