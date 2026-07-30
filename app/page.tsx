@@ -3,11 +3,11 @@
 import { FormEvent, useState } from "react";
 
 const services = [
-  { number: "01", title: "Maniküre & Naturnagelverstärkung", text: "Gesunde, stabile und natürlich schöne Nägel – mit einer sorgfältigen Maniküre und sanfter Verstärkung." },
-  { number: "02", title: "Gelmodellage", text: "Perfekt geformte Nägel und ein dauerhaft gepflegter Look, individuell auf deine Wünsche abgestimmt." },
-  { number: "03", title: "Pediküre", text: "Wohltuende Fußpflege für ein rundum gepflegtes Gefühl – auf Wunsch mit langanhaltendem CND Shellac." },
-  { number: "04", title: "Wimpernverlängerung", text: "Volle, lange und perfekt geschwungene Wimpern für einen ausdrucksstarken Blick – jeden Tag." },
-  { number: "05", title: "Wimpernlifting", text: "Ein natürlicher, offener Blick durch sanftes Formen deiner eigenen Wimpern – ganz ohne Extensions." },
+  { number: "01", title: "Maniküre & Naturnagelverstärkung", text: "Schöne, gepflegte Hände sind deine Visitenkarte. Mit einer professionellen Maniküre und einer Naturnagelverstärkung sorge ich für gesunde, stabile und natürlich schöne Nägel." },
+  { number: "02", title: "Gelmodellage", text: "Ob brüchige Nägel, Nagelbeißer oder der Wunsch nach perfekt geformten Nägeln – eine Gelmodellage verleiht deinen Händen ein dauerhaft gepflegtes Aussehen." },
+  { number: "03", title: "Pediküre", text: "Gepflegte Füße gehören zu einem rundum gepflegten Erscheinungsbild. Genieße eine wohltuende Fußpflege und wähle auf Wunsch einen langanhaltenden Farblack mit CND Shellac." },
+  { number: "04", title: "Wimpernverlängerung", text: "Ein ausdrucksstarker Blick – jeden Tag. Mit einer professionellen Wimpernverlängerung erhältst du volle, lange und perfekt geschwungene Wimpern." },
+  { number: "05", title: "Wimpernlifting", text: "Du bevorzugst einen natürlichen Look? Ein Wimpernlifting hebt und formt deine eigenen Wimpern und sorgt für einen offenen, strahlenden Blick – ganz ohne künstliche Wimpern." },
 ];
 
 const values = [
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Maniküre · Wimpern · Pediküre</p>
           <h1>Deine Auszeit.<br /><em>Deine Schönheit.</em></h1>
-          <p className="hero-lead">Dein Ort für Schönheit, Entspannung und Selfcare – mit sorgfältigen Behandlungen, hochwertigen Produkten und ganz viel Liebe zum Detail.</p>
+          <p className="hero-lead">Dein Ort für Schönheit, Entspannung & Selfcare</p>
           <div className="hero-actions">
             <a className="button button-dark" href="#termin">Wunschtermin anfragen</a>
             <a className="text-link" href="#leistungen">Leistungen entdecken <span>↘</span></a>
@@ -67,7 +67,8 @@ export default function Home() {
         </div>
         <div className="intro-copy">
           <p>Gönn dir eine Auszeit vom Alltag und genieße entspannte Momente in einer angenehmen Atmosphäre. Bei Snowthy Beauty dreht sich alles um gepflegte Nägel, wunderschöne Wimpern und dein persönliches Wohlbefinden.</p>
-          <p>Gemeinsam finden wir den Look, der zu dir passt – von natürlicher Eleganz bis zu deinem ganz individuellen Stil.</p>
+          <p>Mit viel Liebe zum Detail, hochwertigen Produkten und sorgfältiger Arbeit sorge ich dafür, dass deine Hände, Füße und Wimpern perfekt in Szene gesetzt werden. Ob natürliche Eleganz oder ein individueller Look – gemeinsam finden wir das Ergebnis, das zu dir passt.</p>
+          <p>Mein Ziel ist es, dass du mein Studio mit einem Lächeln verlässt und dich rundum gepflegt und selbstbewusst fühlst. Denn manchmal sind es die kleinen Details, die den größten Unterschied machen.</p>
           <span className="signature">Für dein schönstes Ich</span>
         </div>
       </section>
@@ -95,7 +96,7 @@ export default function Home() {
             <p className="eyebrow">Ausgewählte Arbeiten</p>
             <h2>Mit Liebe zum<br /><em>Detail.</em></h2>
           </div>
-          <p>Lass dich von meinen bisherigen Arbeiten inspirieren und entdecke natürliche, elegante und individuell abgestimmte Ergebnisse.</p>
+          <p>Lass dich von meinen bisherigen Arbeiten inspirieren und entdecke die Ergebnisse verschiedener Behandlungen.</p>
         </div>
         <figure>
           <img
@@ -113,7 +114,7 @@ export default function Home() {
         <div className="studio-copy">
           <p className="eyebrow">Unser Studio</p>
           <h2>Ein Ort zum<br /><em>Ankommen.</em></h2>
-          <p>In meinem liebevoll eingerichteten Studio erwartet dich eine entspannte Atmosphäre, in der du den Alltag hinter dir lassen kannst. Hygiene, Qualität und deine Zufriedenheit stehen bei jeder Behandlung an erster Stelle.</p>
+          <p>In meinem liebevoll eingerichteten Studio erwartet dich eine entspannte Atmosphäre, in der du den Alltag hinter dir lassen kannst. Hygiene, Qualität und deine Zufriedenheit stehen bei jeder Behandlung an erster Stelle. Dein Wohlbefinden liegt mir besonders am Herzen – denn jede Auszeit sollte etwas Besonderes sein.</p>
           <div className="values">
             {values.map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}
           </div>
@@ -126,7 +127,7 @@ export default function Home() {
           <h2>Transparent.<br /><em>Persönlich. Schön.</em></h2>
         </div>
         <div className="price-note">
-          <p>Jede Behandlung wird auf deine Wünsche abgestimmt. Die genaue Leistung und den Preis besprechen wir vor deinem Termin ganz transparent.</p>
+          <p>Transparente Preise und hochwertige Leistungen – hier findest du eine Übersicht aller Behandlungen und Preise.</p>
           <a className="button button-outline" href="#termin">Preise anfragen</a>
         </div>
       </section>
@@ -135,7 +136,7 @@ export default function Home() {
         <div className="booking-copy">
           <p className="eyebrow light">Termin buchen</p>
           <h2>Zeit für dich<br /><em>beginnt hier.</em></h2>
-          <p>Schick mir deine Wünsche und deinen bevorzugten Zeitraum. Ich melde mich persönlich bei dir, um deinen Termin abzustimmen.</p>
+          <p>Du möchtest dir eine Auszeit gönnen? Buche deinen Wunschtermin ganz einfach und freue dich auf entspannte Momente sowie professionelle Beauty-Behandlungen.</p>
         </div>
         <form onSubmit={submit}>
           <label>Name<input name="name" autoComplete="name" required placeholder="Dein Name" /></label>
@@ -149,9 +150,13 @@ export default function Home() {
 
       <footer>
         <img src="/snowthy-logo.png" alt="Snowthy Beauty" />
-        <div><a href="#leistungen">Leistungen</a><a href="#studio">Studio</a><a href="#preise">Preise</a><a href="#termin">Termin</a></div>
+        <div><a href="#leistungen">Leistungen</a><a href="#studio">Studio</a><a href="#preise">Preise</a><a href="#termin">Termin</a><a href="#impressum">Impressum</a></div>
         <p>© 2026 Snowthy Beauty<br />Maniküre · Wimpern · Pediküre</p>
       </footer>
+      <section className="imprint" id="impressum">
+        <h2>Impressum</h2>
+        <p>Hier findest du alle rechtlichen Informationen sowie meine Kontaktdaten.</p>
+      </section>
     </main>
   );
 }
