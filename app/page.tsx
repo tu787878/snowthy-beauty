@@ -89,6 +89,22 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="gallery" id="galerie">
+        <div className="gallery-heading">
+          <div>
+            <p className="eyebrow">Ausgewählte Arbeiten</p>
+            <h2>Mit Liebe zum<br /><em>Detail.</em></h2>
+          </div>
+          <p>Lass dich von meinen bisherigen Arbeiten inspirieren und entdecke natürliche, elegante und individuell abgestimmte Ergebnisse.</p>
+        </div>
+        <figure>
+          <img
+            src="/snowthy-gallery.png"
+            alt="Ausgewählte Nagelbehandlungen bei Snowthy Beauty: Lackierung, Naturnagel-Look und Gelmodellage"
+          />
+        </figure>
+      </section>
+
       <section className="studio section-pad" id="studio">
         <div className="studio-art" aria-hidden="true">
           <div className="studio-frame"><span>SB</span></div>
