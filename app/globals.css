@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;500;600&family=WindSong:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root { --cream:#f3e6d4; --cocoa:#4a2c2a; --gold:#eacd76; --paper:#fbf7f1; --ink:#2f1d1c; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"Montserrat",sans-serif; font-weight:300; }
+a { color:inherit; text-decoration:none; }
+.site-header { height:92px; padding:0 clamp(22px,5vw,80px); display:flex; align-items:center; justify-content:space-between; background:var(--paper); position:relative; z-index:10; border-bottom:1px solid rgba(74,44,42,.12); }
+.brand img { width:96px; height:76px; object-fit:cover; object-position:center; filter:brightness(.38) sepia(.6) saturate(.7); }
+nav { display:flex; gap:34px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+nav a, footer a { transition:opacity .2s; } nav a:hover, footer a:hover { opacity:.55; }
+.header-cta { border-bottom:1px solid var(--cocoa); padding:8px 0; text-transform:uppercase; letter-spacing:.13em; font-size:11px; font-weight:500; }
+.hero { min-height:calc(100vh - 92px); display:grid; grid-template-columns:56% 44%; background:var(--cream); position:relative; overflow:hidden; }
+.hero-copy { padding:clamp(80px,11vh,130px) 5vw 90px; align-self:center; position:relative; z-index:2; }
+.eyebrow { text-transform:uppercase; font-size:10px; font-weight:600; letter-spacing:.27em; margin:0 0 28px; }
+h1,h2 { font-family:"Italiana",serif; font-weight:400; margin:0; line-height:.96; letter-spacing:-.02em; }
+h1 { font-size:clamp(58px,7.1vw,112px); max-width:800px; }
+h2 { font-size:clamp(45px,5.4vw,78px); }
+h1 em,h2 em { font-family:"WindSong",cursive; font-weight:500; color:#9a663c; }
+.hero-lead { max-width:620px; margin:42px 0 34px; line-height:1.9; font-size:15px; }
+.hero-actions { display:flex; gap:30px; align-items:center; flex-wrap:wrap; }
+.button { display:inline-flex; min-height:50px; align-items:center; justify-content:center; padding:0 27px; border:0; font:500 10px "Montserrat",sans-serif; text-transform:uppercase; letter-spacing:.18em; cursor:pointer; transition:transform .2s, background .2s; }
+.button:hover { transform:translateY(-2px); }
+.button-dark { color:var(--cream); background:var(--cocoa); }
+.text-link { text-transform:uppercase; letter-spacing:.16em; font-size:10px; font-weight:500; border-bottom:1px solid rgba(74,44,42,.35); padding-bottom:8px; }
+.text-link span { margin-left:12px; }
+.hero-art { background:var(--cocoa); color:var(--cream); display:flex; align-items:center; justify-content:center; flex-direction:column; padding:70px 30px 40px; }
+.arch { width:min(78%,460px); aspect-ratio:.82; border:1px solid rgba(243,230,212,.42); border-bottom:0; border-radius:240px 240px 0 0; position:relative; background:radial-gradient(circle at 50% 36%,rgba(234,205,118,.18),transparent 55%); }
+.polish-bottle { position:absolute; width:112px; height:184px; border:2px solid var(--gold); bottom:14%; left:50%; transform:translateX(-50%); border-radius:13px 13px 22px 22px; box-shadow:inset 0 0 0 8px rgba(234,205,118,.06); }
+.polish-bottle:before { content:""; position:absolute; width:54px; height:68px; left:27px; top:-69px; border:2px solid var(--gold); border-bottom:0; border-radius:8px 8px 0 0; }
+.polish-bottle i { position:absolute; width:58px; height:58px; left:25px; top:55px; border:1px solid var(--gold); border-radius:50%; }
+.polish-bottle i:after { content:"SB"; font:22px "Italiana",serif; position:absolute; inset:15px 0; text-align:center; color:var(--gold); }
+.hand-line { position:absolute; height:1px; background:var(--gold); width:72%; left:14%; bottom:21%; transform:rotate(-9deg); opacity:.8; }
+.spark { position:absolute; color:var(--gold); }.spark-one { top:20%;left:20%;font-size:34px; }.spark-two { top:31%;right:17%;font-size:24px; }
+.hero-art>p { font-family:"Italiana",serif; font-size:21px; line-height:1.35; letter-spacing:.03em; text-align:center; margin:27px 0 0; }
+.hero-note { position:absolute; bottom:26px; left:5vw; display:flex; gap:12px; align-items:center; text-transform:uppercase; letter-spacing:.2em; font-size:8px; }.hero-note i{height:1px;width:45px;background:var(--cocoa);}
+.section-pad { padding:clamp(85px,11vw,160px) clamp(24px,8vw,125px); }
+.intro { display:grid; grid-template-columns:1fr 1fr; gap:10vw; align-items:start; }
+.intro-copy { max-width:570px; font-size:14px; line-height:2; padding-top:7px; }.intro-copy p{margin:0 0 22px;}.signature { display:block; font-family:"WindSong",cursive; font-size:32px; color:#9a663c; margin-top:35px; }
+.services { color:var(--cream); background:var(--cocoa); display:grid; grid-template-columns:38% 62%; gap:7vw; }
+.light { color:var(--gold); }.services h2 em,.booking h2 em { color:var(--gold); }
+.section-heading { position:sticky; top:130px; align-self:start; }
+.service-list { border-top:1px solid rgba(243,230,212,.25); }
+.service { display:grid; grid-template-columns:46px minmax(210px,1fr) minmax(220px,1fr) 36px; gap:24px; align-items:center; padding:30px 0; border-bottom:1px solid rgba(243,230,212,.25); }
+.service>span { color:var(--gold); font:13px "Italiana",serif; }.service h3{font:400 clamp(20px,2vw,28px) "Italiana",serif;margin:0;}.service p{font-size:11px;line-height:1.8;margin:0;opacity:.72;}.service>a{font-size:22px;color:var(--gold);transition:transform .2s}.service>a:hover{transform:translate(3px,-3px)}
+.studio { display:grid; grid-template-columns:45% 55%; gap:8vw; background:#f7efe4; align-items:center; }
+.studio-art { min-height:620px; background:var(--cream); position:relative; display:grid; place-items:center; overflow:hidden; }.studio-art:before,.studio-art:after{content:"";position:absolute;border:1px solid rgba(74,44,42,.25);border-radius:50%;width:430px;height:430px}.studio-art:after{width:330px;height:330px}.studio-frame{width:190px;height:270px;background:var(--cocoa);display:grid;place-items:center;box-shadow:20px 20px 0 var(--gold);position:relative;z-index:2}.studio-frame span{font:54px "Italiana",serif;color:var(--cream)}.studio-art p{position:absolute;bottom:34px;text-transform:uppercase;letter-spacing:.24em;font-size:9px;}
+.studio-copy>p:not(.eyebrow){line-height:2;font-size:14px;max-width:600px;margin:36px 0 45px}.values{display:grid;gap:0}.values>div{display:grid;grid-template-columns:120px 1fr;gap:25px;border-top:1px solid rgba(74,44,42,.18);padding:20px 0}.values h3{font:21px "Italiana",serif;margin:0}.values p{font-size:11px;line-height:1.7;margin:0;opacity:.75}
+.prices { display:grid;grid-template-columns:1fr 1fr;gap:10vw;background:var(--gold);align-items:end}.price-note p{line-height:2;font-size:14px;margin:0 0 35px}.button-outline{border:1px solid var(--cocoa);background:transparent;color:var(--cocoa)}
+.booking { display:grid;grid-template-columns:42% 1fr;gap:10vw;background:var(--cocoa);color:var(--cream)}.booking-copy>p:last-child{font-size:13px;line-height:1.9;opacity:.75;margin:35px 0 0;max-width:480px}.booking form{display:grid;grid-template-columns:1fr 1fr;gap:24px}.booking label{display:flex;flex-direction:column;text-transform:uppercase;font-size:8px;letter-spacing:.2em;color:var(--gold);gap:9px}.booking label:nth-child(3),.booking label:nth-child(4),.booking button,.form-note{grid-column:1/-1}.booking input,.booking select,.booking textarea{width:100%;border:0;border-bottom:1px solid rgba(243,230,212,.34);border-radius:0;background:transparent;color:var(--cream);font:300 13px "Montserrat",sans-serif;padding:10px 0;outline:none}.booking select option{color:var(--ink)}.booking textarea{resize:vertical}.button-gold{background:var(--gold);color:var(--cocoa);justify-self:start;margin-top:8px}.form-note{font-size:11px;line-height:1.7;color:var(--cream);margin:0}
+footer { background:#2e1a19;color:var(--cream);padding:50px clamp(24px,6vw,90px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:30px;border-top:1px solid rgba(243,230,212,.1)}footer img{width:120px;filter:none}footer div{display:flex;gap:28px;text-transform:uppercase;letter-spacing:.15em;font-size:9px}footer p{text-align:right;font-size:9px;line-height:1.8;letter-spacing:.08em;opacity:.6}
+@media(max-width:900px){.site-header nav{display:none}.hero{grid-template-columns:1fr}.hero-copy{min-height:650px}.hero-art{min-height:650px}.hero-note{display:none}.intro,.services,.studio,.prices,.booking{grid-template-columns:1fr}.services{gap:60px}.section-heading{position:static}.studio-art{min-height:500px}.booking{gap:60px}}
+@media(max-width:620px){.site-header{height:78px}.brand img{width:78px;height:62px}.header-cta{font-size:9px}.hero{min-height:auto}.hero-copy{min-height:590px;padding-top:90px}.hero-art{min-height:560px}.section-pad{padding-top:88px;padding-bottom:88px}.service{grid-template-columns:34px 1fr 28px;gap:14px}.service p{grid-column:2/4}.service>a{grid-column:3;grid-row:1/2}.studio-art{min-height:420px}.studio-art:before{width:330px;height:330px}.studio-art:after{width:250px;height:250px}.studio-frame{width:150px;height:220px}.booking form{grid-template-columns:1fr}.booking label{grid-column:1/-1}.prices{gap:45px}footer{grid-template-columns:1fr;text-align:center}footer img{margin:auto}footer div{justify-content:center;flex-wrap:wrap}footer p{text-align:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.service>a{transition:none}}
