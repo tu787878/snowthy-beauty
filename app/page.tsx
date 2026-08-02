@@ -22,20 +22,67 @@ const palettes = [
   { id: "champagne", name: "Champagne Nude", note: "Warm, elegant & natürlich", colors: ["#F5EFE8", "#A79382", "#D7B9A3", "#4A3C35"] },
   { id: "berry", name: "Berry Rose", note: "Feminin, modern & ausdrucksstark", colors: ["#F7EAEE", "#A87483", "#C79AA8", "#4A2834"] },
   { id: "sage", name: "Sage Spa", note: "Ruhig, clean & entspannend", colors: ["#F1F0EA", "#9BA58F", "#D7B5AA", "#3C4B43"] },
+  { id: "mocha", name: "Mocha Gloss", note: "Cremig, warm & luxuriös", colors: ["#F5EDE4", "#B49A88", "#C58D7B", "#49362F"] },
+  { id: "lavender", name: "Lavender Pearl", note: "Zart, elegant & besonders", colors: ["#F4F0F6", "#9B91A4", "#C6AFCB", "#403747"] },
+  { id: "coral", name: "Coral Clay", note: "Frisch, freundlich & modern", colors: ["#FFF0EA", "#B48676", "#DE947E", "#53352E"] },
+  { id: "ice", name: "Ice Blue", note: "Klar, edel & minimalistisch", colors: ["#EEF4F6", "#8399A1", "#ADC8D0", "#2D4148"] },
 ] as const;
 
 type PaletteId = (typeof palettes)[number]["id"];
+type PaletteSelection = PaletteId | "custom";
+
+const customProperties = ["--cream", "--taupe", "--rose", "--slate", "--paper", "--ink", "--cocoa", "--gold"];
+
+function hexToHsl(hex: string) {
+  const value = hex.replace("#", "");
+  const red = parseInt(value.slice(0, 2), 16) / 255;
+  const green = parseInt(value.slice(2, 4), 16) / 255;
+  const blue = parseInt(value.slice(4, 6), 16) / 255;
+  const max = Math.max(red, green, blue);
+  const min = Math.min(red, green, blue);
+  const lightness = (max + min) / 2;
+  const delta = max - min;
+  let hue = 0;
+
+  if (delta !== 0) {
+    if (max === red) hue = ((green - blue) / delta) % 6;
+    else if (max === green) hue = (blue - red) / delta + 2;
+    else hue = (red - green) / delta + 4;
+    hue = Math.round(hue * 60);
+    if (hue < 0) hue += 360;
+  }
+
+  const saturation = delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
+  return { hue, saturation: Math.round(saturation * 100) };
+}
+
+function customPalette(primary: string) {
+  const { hue, saturation } = hexToHsl(primary);
+  const mutedSaturation = Math.max(8, Math.min(24, Math.round(saturation * 0.38)));
+  const darkSaturation = Math.max(8, Math.min(38, Math.round(saturation * 0.72)));
+  return {
+    cream: `hsl(${hue} ${Math.max(8, Math.min(28, Math.round(saturation * 0.3)))}% 93%)`,
+    taupe: `hsl(${hue} ${mutedSaturation}% 55%)`,
+    rose: primary,
+    slate: `hsl(${hue} ${darkSaturation}% 20%)`,
+    paper: `hsl(${hue} ${Math.max(6, Math.min(22, Math.round(saturation * 0.22)))}% 98%)`,
+  };
+}
 
 export default function Home() {
   const [sent, setSent] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const [activePalette, setActivePalette] = useState<PaletteId>("interior");
+  const [activePalette, setActivePalette] = useState<PaletteSelection>("interior");
+  const [customPrimary, setCustomPrimary] = useState("#B38F88");
 
   useEffect(() => {
-    const savedPalette = window.localStorage.getItem("snowthy-palette") as PaletteId | null;
-    const selectedPalette = palettes.some((palette) => palette.id === savedPalette) ? savedPalette! : "interior";
+    const savedPalette = window.localStorage.getItem("snowthy-palette") as PaletteSelection | null;
+    const selectedPalette: PaletteSelection = savedPalette === "custom" || palettes.some((palette) => palette.id === savedPalette) ? savedPalette! : "interior";
+    const savedPrimary = window.localStorage.getItem("snowthy-custom-primary") || "#B38F88";
+    setCustomPrimary(savedPrimary);
     setActivePalette(selectedPalette);
-    document.documentElement.dataset.theme = selectedPalette;
+    if (selectedPalette === "custom") applyCustomPalette(savedPrimary);
+    else document.documentElement.dataset.theme = selectedPalette;
 
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const observer = new IntersectionObserver(
@@ -55,15 +102,43 @@ export default function Home() {
   }, []);
 
   function choosePalette(palette: PaletteId) {
+    customProperties.forEach((property) => document.documentElement.style.removeProperty(property));
     setActivePalette(palette);
     document.documentElement.dataset.theme = palette;
     window.localStorage.setItem("snowthy-palette", palette);
+  }
+
+  function applyCustomPalette(primary: string) {
+    const generated = customPalette(primary);
+    const root = document.documentElement;
+    root.dataset.theme = "custom";
+    root.style.setProperty("--cream", generated.cream);
+    root.style.setProperty("--taupe", generated.taupe);
+    root.style.setProperty("--rose", generated.rose);
+    root.style.setProperty("--slate", generated.slate);
+    root.style.setProperty("--paper", generated.paper);
+    root.style.setProperty("--ink", generated.slate);
+    root.style.setProperty("--cocoa", generated.slate);
+    root.style.setProperty("--gold", generated.rose);
+  }
+
+  function chooseCustomColor(primary: string) {
+    setCustomPrimary(primary);
+    setActivePalette("custom");
+    applyCustomPalette(primary);
+    window.localStorage.setItem("snowthy-palette", "custom");
+    window.localStorage.setItem("snowthy-custom-primary", primary);
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSent(true);
   }
+
+  const generatedCustom = customPalette(customPrimary);
+  const activeColors = activePalette === "custom"
+    ? [generatedCustom.cream, generatedCustom.taupe, generatedCustom.rose, generatedCustom.slate]
+    : palettes.find((palette) => palette.id === activePalette)?.colors;
 
   return (
     <main>
@@ -208,7 +283,7 @@ export default function Home() {
           onClick={() => setPaletteOpen((open) => !open)}
         >
           <span className="palette-mini" aria-hidden="true">
-            {palettes.find((palette) => palette.id === activePalette)?.colors.map((color) => <i key={color} style={{ background: color }} />)}
+            {activeColors?.map((color) => <i key={color} style={{ background: color }} />)}
           </span>
           Farbwelt
           <b aria-hidden="true">{paletteOpen ? "×" : "+"}</b>
@@ -216,8 +291,20 @@ export default function Home() {
         <div className="palette-panel" id="palette-options" role="radiogroup" aria-label="Verfügbare Farbwelten">
           <div className="palette-panel-heading">
             <span>Design ausprobieren</span>
-            <p>Wähle eine Farbwelt. Deine Auswahl bleibt auf diesem Gerät gespeichert.</p>
+            <p>Wähle eine Farbwelt oder erstelle automatisch eine passende Palette aus deiner Lieblingsfarbe.</p>
           </div>
+          <label className={`custom-color${activePalette === "custom" ? " is-active" : ""}`}>
+            <span className="custom-color-preview" style={{ background: customPrimary }}>
+              <input
+                type="color"
+                value={customPrimary}
+                onChange={(event) => chooseCustomColor(event.target.value.toUpperCase())}
+                aria-label="Eigene Primärfarbe auswählen"
+              />
+            </span>
+            <span><strong>Eigene Primärfarbe</strong><small>Palette wird automatisch erzeugt</small></span>
+            <code>{customPrimary}</code>
+          </label>
           {palettes.map((palette) => (
             <button
               type="button"
