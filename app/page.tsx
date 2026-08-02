@@ -16,10 +16,27 @@ const values = [
   ["Wohlgefühl", "Deine Auszeit soll sich vom ersten Moment an besonders und entspannt anfühlen."],
 ];
 
+const palettes = [
+  { id: "interior", name: "Interior Blush", note: "Farben aus dem Referenzfoto", colors: ["#E9E3DF", "#9A918C", "#B38F88", "#444348"] },
+  { id: "luxe", name: "Black Gold Rose", note: "Schwarz, Weiß, Gold & Rosa", colors: ["#FAFAF7", "#C8A35D", "#D8A7B1", "#111111"] },
+  { id: "champagne", name: "Champagne Nude", note: "Warm, elegant & natürlich", colors: ["#F5EFE8", "#A79382", "#D7B9A3", "#4A3C35"] },
+  { id: "berry", name: "Berry Rose", note: "Feminin, modern & ausdrucksstark", colors: ["#F7EAEE", "#A87483", "#C79AA8", "#4A2834"] },
+  { id: "sage", name: "Sage Spa", note: "Ruhig, clean & entspannend", colors: ["#F1F0EA", "#9BA58F", "#D7B5AA", "#3C4B43"] },
+] as const;
+
+type PaletteId = (typeof palettes)[number]["id"];
+
 export default function Home() {
   const [sent, setSent] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [activePalette, setActivePalette] = useState<PaletteId>("interior");
 
   useEffect(() => {
+    const savedPalette = window.localStorage.getItem("snowthy-palette") as PaletteId | null;
+    const selectedPalette = palettes.some((palette) => palette.id === savedPalette) ? savedPalette! : "interior";
+    setActivePalette(selectedPalette);
+    document.documentElement.dataset.theme = selectedPalette;
+
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,6 +53,12 @@ export default function Home() {
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
+
+  function choosePalette(palette: PaletteId) {
+    setActivePalette(palette);
+    document.documentElement.dataset.theme = palette;
+    window.localStorage.setItem("snowthy-palette", palette);
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -175,6 +198,44 @@ export default function Home() {
         <h2>Impressum</h2>
         <p>Hier findest du alle rechtlichen Informationen sowie meine Kontaktdaten.</p>
       </section>
+
+      <aside className={`palette-picker${paletteOpen ? " is-open" : ""}`} aria-label="Farbwelt auswählen">
+        <button
+          className="palette-toggle"
+          type="button"
+          aria-expanded={paletteOpen}
+          aria-controls="palette-options"
+          onClick={() => setPaletteOpen((open) => !open)}
+        >
+          <span className="palette-mini" aria-hidden="true">
+            {palettes.find((palette) => palette.id === activePalette)?.colors.map((color) => <i key={color} style={{ background: color }} />)}
+          </span>
+          Farbwelt
+          <b aria-hidden="true">{paletteOpen ? "×" : "+"}</b>
+        </button>
+        <div className="palette-panel" id="palette-options" role="radiogroup" aria-label="Verfügbare Farbwelten">
+          <div className="palette-panel-heading">
+            <span>Design ausprobieren</span>
+            <p>Wähle eine Farbwelt. Deine Auswahl bleibt auf diesem Gerät gespeichert.</p>
+          </div>
+          {palettes.map((palette) => (
+            <button
+              type="button"
+              role="radio"
+              aria-checked={activePalette === palette.id}
+              className={`palette-option${activePalette === palette.id ? " is-active" : ""}`}
+              key={palette.id}
+              onClick={() => choosePalette(palette.id)}
+            >
+              <span className="palette-swatches" aria-hidden="true">
+                {palette.colors.map((color) => <i key={color} style={{ background: color }} />)}
+              </span>
+              <span><strong>{palette.name}</strong><small>{palette.note}</small></span>
+              <em>{activePalette === palette.id ? "✓" : ""}</em>
+            </button>
+          ))}
+        </div>
+      </aside>
     </main>
   );
 }
