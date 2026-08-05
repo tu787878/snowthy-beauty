@@ -38,7 +38,7 @@ h1 em,h2 em { display:inline-block; max-width:100%; white-space:nowrap; font-fam
 .button-dark { color:var(--cream); background:var(--cocoa); }
 .text-link { text-transform:uppercase; letter-spacing:.16em; font-size:10px; font-weight:500; border-bottom:1px solid color-mix(in srgb,var(--slate) 35%,transparent); padding-bottom:8px; }
 .text-link span { margin-left:12px; }
-.hero-art { background-color:var(--cream); background-image:url("/snowthy-hero-background-gold.png"); background-size:cover; background-position:center; color:var(--cream); display:flex; align-items:center; justify-content:center; flex-direction:column; padding:70px 30px 40px; position:relative; animation:hero-image-in 1.15s cubic-bezier(.22,.8,.32,1) both; transition:background-size 1.2s ease; }
+.hero-art { background-color:var(--cream); background-image:url("/snowthy-hero-background-gold-original.png"); background-size:cover; background-position:center; color:var(--cream); display:flex; align-items:center; justify-content:center; flex-direction:column; padding:70px 30px 40px; position:relative; animation:hero-image-in 1.15s cubic-bezier(.22,.8,.32,1) both; transition:background-size 1.2s ease; }
 .hero-art:hover { background-size:106%; }
 .hero-art:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(50,67,95,.12),rgba(166,127,120,.03) 48%,transparent); pointer-events:none; }
 .arch { width:min(78%,460px); aspect-ratio:.82; border:1px solid rgba(243,230,212,.42); border-bottom:0; border-radius:240px 240px 0 0; position:relative; background:radial-gradient(circle at 50% 36%,rgba(234,205,118,.18),transparent 55%); }
