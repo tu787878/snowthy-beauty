@@ -15,6 +15,21 @@
       "database_id": "f5af214b-b5b7-4303-b68b-0c021b2f9a1a"
     }
   ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  },
   "images": {
     "binding": "IMAGES"
   }
