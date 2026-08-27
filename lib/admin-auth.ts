@@ -3,11 +3,19 @@ import { cookies } from "next/headers";
 const COOKIE_NAME = "snowthy-admin";
 const MAX_AGE = 60 * 60 * 8;
 
-function credentials() {
+type AdminEnvironment = {
+  ADMIN_USERNAME?: string;
+  ADMIN_PASSWORD?: string;
+  ADMIN_SESSION_SECRET?: string;
+};
+
+async function credentials() {
+  const { env } = await import("cloudflare:workers");
+  const runtime = env as unknown as AdminEnvironment;
   return {
-    username: process.env.ADMIN_USERNAME || "",
-    password: process.env.ADMIN_PASSWORD || "",
-    secret: process.env.ADMIN_SESSION_SECRET || "",
+    username: runtime.ADMIN_USERNAME || "",
+    password: runtime.ADMIN_PASSWORD || "",
+    secret: runtime.ADMIN_SESSION_SECRET || "",
   };
 }
 
@@ -22,13 +30,14 @@ function equal(a: string, b: string) {
 }
 
 async function signature(value: string) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(credentials().secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const { secret } = await credentials();
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const signed = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(value));
   return Array.from(new Uint8Array(signed), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 export async function validLogin(username: string, password: string) {
-  const expected = credentials();
+  const expected = await credentials();
   return Boolean(expected.username && expected.password && expected.secret)
     && equal(username, expected.username)
     && equal(password, expected.password);
