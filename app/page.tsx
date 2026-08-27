@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { defaultSiteContent, normalizeSiteContent, type SiteContent } from "@/lib/site-content";
 
 const values = [
@@ -46,7 +46,6 @@ function customPalette(primary: string) {
 }
 
 export default function Home() {
-  const [sent, setSent] = useState(false);
   const [content, setContent] = useState<SiteContent>(defaultSiteContent);
 
   useEffect(() => {
@@ -90,11 +89,6 @@ export default function Home() {
     root.style.setProperty("--cocoa", generated.slate);
     root.style.setProperty("--gold", generated.rose);
   }, [content.colorTheme, content.primaryColor]);
-
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSent(true);
-  }
 
   const services = content.services.map((service, index) => ({ ...service, number: String(index + 1).padStart(2, "0") }));
 
@@ -209,15 +203,18 @@ export default function Home() {
           <p className="eyebrow light">{content.bookingEyebrow}</p>
           <h2>{content.bookingTitle}<br /><em>{content.bookingAccent}</em></h2>
           <p>{content.bookingText}</p>
+          <a className="button button-gold booking-button" href={content.bookingUrl} target="_blank" rel="noreferrer">Online-Termin buchen ↗</a>
         </div>
-        <form onSubmit={submit}>
-          <label>Name<input name="name" autoComplete="name" required placeholder="Dein Name" /></label>
-          <label>Kontakt<input name="contact" required placeholder="Telefon oder E-Mail" /></label>
-          <label>Wunschbehandlung<select name="service" defaultValue=""><option value="" disabled>Bitte auswählen</option>{services.map((s) => <option key={s.number}>{s.title}</option>)}</select></label>
-          <label>Nachricht<textarea name="message" rows={3} placeholder="Wann passt es dir am besten?" /></label>
-          <button className="button button-gold" type="submit">Anfrage vorbereiten</button>
-          {sent && <p className="form-note" role="status">Danke! Deine Anfrage ist vorbereitet. Hinterlege noch deine Kontakt-E-Mail, um das Formular live zu versenden.</p>}
-        </form>
+        <div className="booking-details">
+          <a className="booking-qr" href={content.bookingUrl} target="_blank" rel="noreferrer" aria-label="Planity-Buchungsseite öffnen">
+            <img src="/snowthy-planity-qr.jpg" alt="QR-Code zur Online-Terminbuchung bei Snowthy Beauty" />
+            <span>Scannen & Termin buchen</span>
+          </a>
+          <div className="booking-info">
+            <div className="address-block"><span>Adresse</span><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(content.address)}`} target="_blank" rel="noreferrer">{content.address} ↗</a></div>
+            <div className="hours-block"><span>Öffnungszeiten</span><dl>{content.openingHours.map((entry) => <div key={entry.day}><dt>{entry.day}</dt><dd>{entry.hours}</dd></div>)}</dl></div>
+          </div>
+        </div>
       </section>
 
       <footer>

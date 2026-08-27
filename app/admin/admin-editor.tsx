@@ -128,7 +128,12 @@ export default function AdminEditor({ initiallyAuthenticated }: { initiallyAuthe
         <div className="admin-grid">{fields.map(([key, label]) => <label key={key}>{label}<input value={String(content[key])} onChange={(event) => field(key, event.target.value)} /></label>)}</div>
         {title === "Willkommen" && content.introParagraphs.map((paragraph, index) => <label key={index}>Absatz {index + 1}<textarea rows={4} value={paragraph} onChange={(event) => setContent((current) => ({ ...current, introParagraphs: current.introParagraphs.map((item, itemIndex) => itemIndex === index ? event.target.value : item) }))} /></label>)}
         {title === "Studio" && <label>Beschreibung<textarea rows={5} value={content.studioText} onChange={(event) => field("studioText", event.target.value)} /></label>}
-        {title === "Termin" && <label>Beschreibung<textarea rows={4} value={content.bookingText} onChange={(event) => field("bookingText", event.target.value)} /></label>}
+        {title === "Termin" && <>
+          <label>Beschreibung<textarea rows={4} value={content.bookingText} onChange={(event) => field("bookingText", event.target.value)} /></label>
+          <div className="admin-grid"><label>Planity-Buchungslink<input type="url" value={content.bookingUrl} onChange={(event) => field("bookingUrl", event.target.value)} /></label><label>Adresse<input value={content.address} onChange={(event) => field("address", event.target.value)} /></label></div>
+          <h3 className="admin-subheading">Öffnungszeiten</h3>
+          <div className="admin-hours">{content.openingHours.map((entry, index) => <div key={index}><label>Tag<input value={entry.day} onChange={(event) => setContent((current) => ({ ...current, openingHours: current.openingHours.map((item, itemIndex) => itemIndex === index ? { ...item, day: event.target.value } : item) }))} /></label><label>Zeit oder „Geschlossen“<input value={entry.hours} onChange={(event) => setContent((current) => ({ ...current, openingHours: current.openingHours.map((item, itemIndex) => itemIndex === index ? { ...item, hours: event.target.value } : item) }))} /></label></div>)}</div>
+        </>}
       </section>)}
       <section className="admin-card">
         <p className="admin-kicker">Angebot</p><h2>Leistungen</h2>

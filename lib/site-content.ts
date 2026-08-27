@@ -3,6 +3,11 @@ export type EditableService = {
   text: string;
 };
 
+export type OpeningHour = {
+  day: string;
+  hours: string;
+};
+
 export type SiteContent = {
   colorTheme: string;
   primaryColor: string;
@@ -26,6 +31,9 @@ export type SiteContent = {
   bookingTitle: string;
   bookingAccent: string;
   bookingText: string;
+  bookingUrl: string;
+  address: string;
+  openingHours: OpeningHour[];
 };
 
 export const colorPresets = [
@@ -73,6 +81,17 @@ export const defaultSiteContent: SiteContent = {
   bookingTitle: "Zeit für dich",
   bookingAccent: "beginnt hier.",
   bookingText: "Du möchtest dir eine Auszeit gönnen? Buche deinen Wunschtermin ganz einfach und freue dich auf entspannte Momente sowie professionelle Beauty-Behandlungen.",
+  bookingUrl: "https://www.planity.com/de-DE/snowthy-beauty-93059-regensburg",
+  address: "Holzgartenstraße 2, 93059 Regensburg",
+  openingHours: [
+    { day: "Montag", hours: "08:30 – 17:00" },
+    { day: "Dienstag", hours: "08:30 – 17:00" },
+    { day: "Mittwoch", hours: "08:30 – 17:00" },
+    { day: "Donnerstag", hours: "08:30 – 17:00" },
+    { day: "Freitag", hours: "08:30 – 17:00" },
+    { day: "Samstag", hours: "09:00 – 14:00" },
+    { day: "Sonntag", hours: "Geschlossen" },
+  ],
 };
 
 export function normalizeSiteContent(value: unknown): SiteContent {
@@ -83,6 +102,8 @@ export function normalizeSiteContent(value: unknown): SiteContent {
     ...candidate,
     colorTheme: candidate.colorTheme === "custom" || colorPresets.some((preset) => preset.id === candidate.colorTheme) ? candidate.colorTheme! : defaultSiteContent.colorTheme,
     primaryColor: /^#[0-9A-Fa-f]{6}$/.test(candidate.primaryColor ?? "") ? candidate.primaryColor! : defaultSiteContent.primaryColor,
+    bookingUrl: /^https:\/\//i.test(candidate.bookingUrl ?? "") ? candidate.bookingUrl! : defaultSiteContent.bookingUrl,
+    address: typeof candidate.address === "string" ? candidate.address : defaultSiteContent.address,
     introParagraphs: Array.isArray(candidate.introParagraphs) ? candidate.introParagraphs.slice(0, 3).map(String) : defaultSiteContent.introParagraphs,
     services: Array.isArray(candidate.services) && candidate.services.length === 5
       ? candidate.services.map((service, index) => ({
@@ -90,5 +111,11 @@ export function normalizeSiteContent(value: unknown): SiteContent {
           text: String(service?.text ?? defaultSiteContent.services[index].text),
         }))
       : defaultSiteContent.services,
+    openingHours: Array.isArray(candidate.openingHours) && candidate.openingHours.length === 7
+      ? candidate.openingHours.map((entry, index) => ({
+          day: String(entry?.day ?? defaultSiteContent.openingHours[index].day),
+          hours: String(entry?.hours ?? defaultSiteContent.openingHours[index].hours),
+        }))
+      : defaultSiteContent.openingHours,
   };
 }
